@@ -109,7 +109,7 @@ table_data = {
         "Gross CLV",
         "Net CLV (After Fees)",
         "Total Fees",
-        "CAC",
+        "CAC (Commission Payment to Affiliate",
         "CAC as % of Net CLV",
         "Net Profit per User",
         "CAC / CLV Ratio (%)"
