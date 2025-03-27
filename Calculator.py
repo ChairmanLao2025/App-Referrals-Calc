@@ -168,19 +168,23 @@ st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
 
-# Rewardful Plan Selection
+# Rewardful Plan & ROI with VAT included
 st.markdown("### 🧾 Rewardful Plan & ROI")
 
 rewardful_plan = st.selectbox(
     "Select your Rewardful plan",
-    options=["Starter (£39)", "Growth (£79)", "Enterprise (£119)"]
+    options=[
+        "Starter (£46.80/month inc VAT)",
+        "Growth (£94.80/month inc VAT)",
+        "Enterprise (£142.80/month inc VAT)"
+    ]
 )
 
-# Plan price mapping
+# Plan price mapping (inc VAT)
 plan_costs = {
-    "Starter (£39)": 39,
-    "Growth (£79)": 79,
-    "Enterprise (£119)": 119
+    "Starter (£46.80/month inc VAT)": 46.80,
+    "Growth (£94.80/month inc VAT)": 94.80,
+    "Enterprise (£142.80/month inc VAT)": 142.80
 }
 
 monthly_rewardful_cost = plan_costs[rewardful_plan]
@@ -189,9 +193,10 @@ annual_rewardful_cost = monthly_rewardful_cost * 12
 roi_percent = (estimated_annual_revenue / annual_rewardful_cost * 100) if annual_rewardful_cost else 0
 
 # Display
-st.markdown(f"**Monthly Cost of Rewardful:** £{monthly_rewardful_cost}")
-st.markdown(f"**Annual Cost of Rewardful:** £{annual_rewardful_cost}")
+st.markdown(f"**Monthly Cost of Rewardful (inc VAT):** £{monthly_rewardful_cost:.2f}")
+st.markdown(f"**Annual Cost of Rewardful (inc VAT):** £{annual_rewardful_cost:.2f}")
 st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
+
 
 
 
