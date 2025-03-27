@@ -46,6 +46,18 @@ st.markdown("""
         padding: 8px;
         text-align: center;
     }
+    /* Style the dropdown (select box) */
+div[data-baseweb="select"] {
+    background-color: black !important;
+    color: white !important;
+    border: 1px solid white !important;
+}
+
+div[data-baseweb="select"] * {
+    color: white !important;
+    background-color: black !important;
+}
+
     </style>
 """, unsafe_allow_html=True)
 
