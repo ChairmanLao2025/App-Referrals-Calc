@@ -57,7 +57,6 @@ div[data-baseweb="select"] * {
     color: white !important;
     background-color: black !important;
 }
-
     </style>
 """, unsafe_allow_html=True)
 
