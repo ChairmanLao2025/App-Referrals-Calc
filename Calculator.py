@@ -169,3 +169,7 @@ st.markdown("""
 | **Net Profit per User** | Net CLV minus CAC – what you actually earn per customer |
 | **CAC / CLV Ratio** | Percentage of CLV spent on acquiring the user – lower is better |
 """)
+
+# Full-screen closing image
+st.markdown("---")
+st.image("DSCF0709.jpg", use_column_width=True)
