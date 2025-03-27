@@ -2,13 +2,13 @@ import streamlit as st
 from PIL import Image
 import pandas as pd
 
-# Page configuration
+# Page config
 st.set_page_config(
     page_title="Referrals System Analysis",
     layout="wide"
 )
 
-# Inject custom CSS
+# Inject dark styling + table formatting
 st.markdown("""
     <style>
     body {
@@ -21,16 +21,26 @@ st.markdown("""
     h1, h2, h3, h4, h5, h6, .stMarkdown, .st-bb, .st-c0, label, .stSelectbox {
         color: white !important;
     }
-    .css-1aumxhk {
-        color: white !important;
-    }
     input, textarea {
         background-color: #000000 !important;
         color: white !important;
-        border: 1px solid #555 !important;
+        border: 1px solid white !important;
     }
     .block-container {
         padding-top: 2rem;
+    }
+    .dataframe {
+        color: white;
+        background-color: black;
+        border: 1px solid white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid white !important;
+        padding: 8px;
+        text-align: center;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -39,17 +49,17 @@ st.markdown("""
 logo = Image.open("Breathpod.png")
 st.image(logo, width=600)
 
-# App title
+# Title
 st.title("Referrals System Analysis")
 
-# Purpose expander
+# Purpose block
 with st.expander("💡 What is the purpose of this tool?"):
     st.write("""
         This tool is designed for the internal team at Breathpod to evaluate the health and sustainability of our **referral strategy**.
 
         - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user, particularly through our Rewardful commission structure.
         - **Customer Lifetime Value (CLV)** shows the total revenue we can expect from a user based on retention.
-        - The difference between CLV and CAC represents **true profitability**, especially once we deduct platform fees.
+        - **CAC / CLV Ratio** helps us understand cost efficiency.
         - Factoring in Stripe and Uscreen fees ensures our metrics reflect **real-world margins**, not vanity numbers.
 
         We use this tool to **test assumptions, plan campaigns, and make confident decisions** about how we scale Breathpod through word-of-mouth and self-marketing loops.
@@ -79,6 +89,7 @@ monthly_net_revenue = monthly_clv - monthly_total_fees
 monthly_cac = (commission_pct / 100) * monthly_price
 monthly_profit = monthly_net_revenue - monthly_cac
 monthly_cac_pct = (monthly_cac / monthly_net_revenue * 100) if monthly_net_revenue else 0
+monthly_cac_to_clv = (monthly_cac / monthly_net_revenue * 100) if monthly_net_revenue else 0
 
 # Annual calculations
 annual_total_fees = (annual_price * total_fee_pct) + stripe_fixed_fee
@@ -86,16 +97,18 @@ annual_net_revenue = annual_price - annual_total_fees
 annual_cac = (commission_pct / 100) * annual_price
 annual_profit = annual_net_revenue - annual_cac
 annual_cac_pct = (annual_cac / annual_net_revenue * 100) if annual_net_revenue else 0
+annual_cac_to_clv = (annual_cac / annual_net_revenue * 100) if annual_net_revenue else 0
 
-# Comparison Table
-data = {
+# Plan Comparison Table
+table_data = {
     "Metric": [
         "Gross CLV",
         "Net Revenue After Fees",
         "Total Fees",
         "CAC",
         "CAC as % of Net Revenue",
-        "Net Profit per User"
+        "Net Profit per User",
+        "CAC / Net CLV Ratio (%)"
     ],
     "Monthly Subscription Plan": [
         f"£{monthly_clv:.2f}",
@@ -103,7 +116,8 @@ data = {
         f"£{monthly_total_fees:.2f}",
         f"£{monthly_cac:.2f}",
         f"{monthly_cac_pct:.2f}%",
-        f"£{monthly_profit:.2f}"
+        f"£{monthly_profit:.2f}",
+        f"{monthly_cac_to_clv:.2f}%"
     ],
     "Annual Subscription Plan": [
         f"£{annual_price:.2f}",
@@ -111,14 +125,32 @@ data = {
         f"£{annual_total_fees:.2f}",
         f"£{annual_cac:.2f}",
         f"{annual_cac_pct:.2f}%",
-        f"£{annual_profit:.2f}"
+        f"£{annual_profit:.2f}",
+        f"{annual_cac_to_clv:.2f}%"
     ]
 }
 
-df = pd.DataFrame(data)
-
+df = pd.DataFrame(table_data)
 st.subheader("📊 Plan Comparison Table")
-st.dataframe(df, use_container_width=True)
+st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+# Affiliate Impact Calculator
+st.markdown("---")
+st.subheader("🤝 Affiliate Impact Calculator")
+
+active_subscribers = st.number_input("Current number of active subscribers", value=100)
+active_affiliates = st.number_input("Current number of active affiliates", value=10)
+monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=2)
+annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=24)
+
+total_monthly_referrals = active_affiliates * monthly_referrals
+total_annual_referrals = active_affiliates * annual_referrals
+avg_clv_per_user = (monthly_clv + annual_price) / 2
+estimated_annual_revenue = total_annual_referrals * avg_clv_per_user
+
+st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
+st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
+st.markdown(f"**Estimated Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
 # Definitions
 st.markdown("---")
@@ -131,4 +163,5 @@ st.markdown("""
 | **CAC** | Customer Acquisition Cost – the cost to gain a user (e.g. referral payout) |
 | **Net Revenue** | Revenue after Stripe and Uscreen fees are deducted |
 | **Net Profit per User** | Net revenue minus CAC – what you actually earn per customer |
+| **CAC / CLV Ratio** | Percentage of CLV spent on acquiring the user – lower is better |
 """)
