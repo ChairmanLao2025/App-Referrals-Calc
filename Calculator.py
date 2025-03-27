@@ -152,7 +152,7 @@ annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=2
 total_monthly_referrals = active_affiliates * monthly_referrals
 total_annual_referrals = active_affiliates * annual_referrals
 avg_clv_per_user = (monthly_clv + annual_price) / 2
-estimated_annual_revenue = total_annual_referrals * avg_clv_per_user
+estimated_additional_annual_revenue = total_annual_referrals * avg_clv_per_user
 
 st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
 st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
