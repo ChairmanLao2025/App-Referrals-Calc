@@ -50,7 +50,7 @@ logo = Image.open("Breathpod.png")
 st.image(logo, width=600)
 
 # Title
-st.title("Referrals System Analysis")
+st.title("REWARDFUL x BREATHPOD - Referrals System Analysis")
 
 # Purpose block
 with st.expander("💡 What is the purpose of this tool?"):
@@ -62,7 +62,7 @@ with st.expander("💡 What is the purpose of this tool?"):
         - **CAC / CLV Ratio** helps us understand cost efficiency.
         - Factoring in Stripe and Uscreen fees ensures our metrics reflect **real-world margins**, not vanity numbers.
 
-        We use this tool to **test assumptions, plan campaigns, and make confident decisions** about how we scale Breathpod through word-of-mouth and self-marketing loops.
+        We can use this tool to **test assumptions, plan campaigns, and make confident decisions** about how we scale Breathpod through word-of-mouth and self-marketing loops.
     """)
 
 # Inputs
@@ -72,14 +72,14 @@ stripe_fixed_fee = st.number_input("Stripe Fixed Fee (£)", value=0.20)
 uscreen_fee_pct = st.number_input("Uscreen Fee (%)", value=5.4)
 total_fee_pct = (stripe_fee_pct + uscreen_fee_pct) / 100
 
-st.header("Referral Commission")
+st.header("Rewardful Referral Commission")
 commission_pct = st.number_input("Referral Commission (%)", value=30.0)
 
-st.header("Monthly Plan Inputs")
+st.header("Monthly Subscription Plan Inputs")
 monthly_price = st.number_input("Monthly Subscription Price (£)", value=12.99)
 monthly_retention = st.number_input("Average Retention (months)", value=3)
 
-st.header("Annual Plan Inputs")
+st.header("Annual Subscription Plan Inputs")
 annual_price = st.number_input("Annual Subscription Price (£)", value=129.99)
 
 # Monthly calculations
