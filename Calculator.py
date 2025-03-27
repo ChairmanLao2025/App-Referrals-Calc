@@ -10,20 +10,21 @@ st.set_page_config(
 
 # Inject dark styling + table formatting
 st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <style>
     body {
         background-color: #000000;
-        font-family: 'Helvetica Neue', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
     }
     .stApp {
         background-color: #000000;
         color: white;
-        font-family: 'Helvetica Neue', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
     }
     h1, h2, h3, h4, h5, h6, .stMarkdown, .st-bb, .st-c0, label, .stSelectbox,
     input, textarea, .css-1aumxhk, .dataframe, table, th, td {
         color: white !important;
-        font-family: 'Helvetica Neue', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
     }
     input, textarea {
         background-color: #000000 !important;
@@ -38,7 +39,7 @@ st.markdown("""
     }
     table {
         border-collapse: collapse;
-        font-family: 'Helvetica Neue', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
     }
     th, td {
         border: 1px solid white !important;
@@ -47,6 +48,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 # Logo
