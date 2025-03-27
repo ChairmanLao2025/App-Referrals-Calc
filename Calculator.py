@@ -156,6 +156,34 @@ st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
 st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
+
+# Rewardful Plan Selection
+st.markdown("### 🧾 Rewardful Plan & ROI")
+
+rewardful_plan = st.selectbox(
+    "Select your Rewardful plan",
+    options=["Starter (£39)", "Growth (£79)", "Enterprise (£119)"]
+)
+
+# Plan price mapping
+plan_costs = {
+    "Starter (£39)": 39,
+    "Growth (£79)": 79,
+    "Enterprise (£119)": 119
+}
+
+monthly_rewardful_cost = plan_costs[rewardful_plan]
+annual_rewardful_cost = monthly_rewardful_cost * 12
+
+roi_percent = (estimated_annual_revenue / annual_rewardful_cost * 100) if annual_rewardful_cost else 0
+
+# Display
+st.markdown(f"**Monthly Cost of Rewardful:** £{monthly_rewardful_cost}")
+st.markdown(f"**Annual Cost of Rewardful:** £{annual_rewardful_cost}")
+st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
+
+
+
 # Definitions
 st.markdown("---")
 st.markdown("### 🔍 Definitions")
