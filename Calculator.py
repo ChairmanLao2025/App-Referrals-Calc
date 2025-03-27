@@ -34,17 +34,21 @@ annual_profit = annual_net_revenue - annual_cac
 annual_cac_pct = (annual_cac / annual_net_revenue * 100) if annual_net_revenue else 0
 
 st.subheader("📆 Monthly Plan")
+st.markdown("**CLV:** Customer Lifetime Value – the total revenue earned from a customer over time.")
 st.write(f"Gross CLV: £{monthly_clv:.2f}")
 st.write(f"Net Revenue After Fees: £{monthly_net_revenue:.2f}")
 st.write(f"Total Fees: £{monthly_total_fees:.2f}")
+st.markdown("**CAC:** Customer Acquisition Cost – the cost to acquire a customer (e.g., referral payout).")
 st.write(f"CAC: £{monthly_cac:.2f}")
 st.write(f"CAC as % of Net Revenue: {monthly_cac_pct:.2f}%")
 st.write(f"Net Profit per User: £{monthly_profit:.2f}")
 
 st.subheader("📅 Annual Plan")
+st.markdown("**CLV:** Customer Lifetime Value – the total revenue earned from a customer over time.")
 st.write(f"Gross CLV: £{annual_price:.2f}")
 st.write(f"Net Revenue After Fees: £{annual_net_revenue:.2f}")
 st.write(f"Total Fees: £{annual_total_fees:.2f}")
+st.markdown("**CAC:** Customer Acquisition Cost – the cost to acquire a customer (e.g., referral payout).")
 st.write(f"CAC: £{annual_cac:.2f}")
 st.write(f"CAC as % of Net Revenue: {annual_cac_pct:.2f}%")
 st.write(f"Net Profit per User: £{annual_profit:.2f}")
