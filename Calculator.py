@@ -172,4 +172,4 @@ st.markdown("""
 
 # Full-screen closing image
 st.markdown("---")
-st.image("DSCF0709.jpg", use_column_width=True)
+st.image("DSCF0709.jpg", use_container_width=True)
