@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import pandas as pd
 
 # Page configuration
 st.set_page_config(
@@ -34,25 +35,23 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Logo
+# Breathpod logo
 logo = Image.open("Breathpod.png")
 st.image(logo, width=150)
 
-# Title
+# App title
 st.title("Referrals System Analysis")
 
-# Purpose explainer
+# Purpose expander
 with st.expander("💡 What is the purpose of this tool?"):
     st.write("""
-        This tool is designed for the internal team at Breathpod to evaluate the health and sustainability of our **referral strategy**.
+        This tool is designed to evaluate our **referral strategy**.
 
-        - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user, particularly through our 30% referral offer.
+        - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user, particularly through our referral offer.
         - **Customer Lifetime Value (CLV)** shows the total revenue we can expect from a user based on retention.
         - The difference between CLV and CAC represents **true profitability**, especially once we deduct platform fees.
-        - Factoring in Stripe and Uscreen fees ensures our metrics reflect **real-world margins**, not vanity numbers.
 
-        We use this tool to **test assumptions, plan campaigns, and make confident decisions** about how we scale Breathpod through word-of-mouth and self-marketing loops.
-    """)
+        We can use this tool to **test assumptions, plan campaigns, and make confident decisions** about how we scale Breathpod.
 
 # Inputs
 st.header("Platform Fees")
@@ -85,28 +84,40 @@ annual_cac = (annual_commission / 100) * annual_price
 annual_profit = annual_net_revenue - annual_cac
 annual_cac_pct = (annual_cac / annual_net_revenue * 100) if annual_net_revenue else 0
 
-# Output in columns
-col1, col2 = st.columns(2)
+# 📊 Output: comparison table
+data = {
+    "Metric": [
+        "Gross CLV",
+        "Net Revenue After Fees",
+        "Total Fees",
+        "CAC",
+        "CAC as % of Net Revenue",
+        "Net Profit per User"
+    ],
+    "Monthly Subscription Plan": [
+        f"£{monthly_clv:.2f}",
+        f"£{monthly_net_revenue:.2f}",
+        f"£{monthly_total_fees:.2f}",
+        f"£{monthly_cac:.2f}",
+        f"{monthly_cac_pct:.2f}%",
+        f"£{monthly_profit:.2f}"
+    ],
+    "Annual Subscription Plan": [
+        f"£{annual_price:.2f}",
+        f"£{annual_net_revenue:.2f}",
+        f"£{annual_total_fees:.2f}",
+        f"£{annual_cac:.2f}",
+        f"{annual_cac_pct:.2f}%",
+        f"£{annual_profit:.2f}"
+    ]
+}
 
-with col1:
-    st.subheader("📆 Monthly Plan")
-    st.write(f"Gross CLV: £{monthly_clv:.2f}")
-    st.write(f"Net Revenue After Fees: £{monthly_net_revenue:.2f}")
-    st.write(f"Total Fees: £{monthly_total_fees:.2f}")
-    st.write(f"CAC: £{monthly_cac:.2f}")
-    st.write(f"CAC as % of Net Revenue: {monthly_cac_pct:.2f}%")
-    st.write(f"Net Profit per User: £{monthly_profit:.2f}")
+df = pd.DataFrame(data)
 
-with col2:
-    st.subheader("📅 Annual Plan")
-    st.write(f"Gross CLV: £{annual_price:.2f}")
-    st.write(f"Net Revenue After Fees: £{annual_net_revenue:.2f}")
-    st.write(f"Total Fees: £{annual_total_fees:.2f}")
-    st.write(f"CAC: £{annual_cac:.2f}")
-    st.write(f"CAC as % of Net Revenue: {annual_cac_pct:.2f}%")
-    st.write(f"Net Profit per User: £{annual_profit:.2f}")
+st.subheader("📊 Plan Comparison Table")
+st.table(df)
 
-# Definitions table
+# Definitions section
 st.markdown("---")
 st.markdown("### 🔍 Definitions")
 
