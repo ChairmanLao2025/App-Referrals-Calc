@@ -144,8 +144,8 @@ st.subheader("🤝 Affiliate Impact Calculator")
 
 active_subscribers = st.number_input("Current number of active subscribers", value=100)
 active_affiliates = st.number_input("Current number of active affiliates", value=10)
-monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=2)
-annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=24)
+monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=0.1)
+annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=0.1)
 
 total_monthly_referrals = active_affiliates * monthly_referrals
 total_annual_referrals = active_affiliates * annual_referrals
