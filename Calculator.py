@@ -1,10 +1,36 @@
 import streamlit as st
+from PIL import Image
+
+# Load Breathpod logo
+logo = Image.open("Breathpod.png")
+
+# Inject custom CSS for dark theme
+st.markdown("""
+    <style>
+    body {
+        background-color: #000000;
+    }
+    .stApp {
+        background-color: #000000;
+        color: white;
+    }
+    h1, h2, h3, h4, h5, h6, .stMarkdown, .st-bb, .st-c0, label, .stSelectbox {
+        color: white !important;
+    }
+    .css-1aumxhk {
+        color: white !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # Sidebar navigation
 page = st.sidebar.selectbox("Choose a page", ["Calculator", "Definitions"])
 
+# Logo
+st.image(logo, width=300)
+
 if page == "Calculator":
-    st.title("Referral CAC vs CLV Calculator (with Real Fees)")
+    st.title("Referral CAC vs CLV Calculator")
 
     st.header("Platform Fees")
     stripe_fee_pct = st.number_input("Stripe Fee (%)", value=1.5)
