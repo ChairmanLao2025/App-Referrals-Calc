@@ -4,7 +4,7 @@ from PIL import Image
 # Load Breathpod logo
 logo = Image.open("Breathpod.png")
 
-# Inject custom CSS for dark theme
+# Inject custom CSS for dark theme + styled input boxes
 st.markdown("""
     <style>
     body {
@@ -20,11 +20,16 @@ st.markdown("""
     .css-1aumxhk {
         color: white !important;
     }
+    input, textarea {
+        background-color: #000000 !important;
+        color: white !important;
+        border: 1px solid #555 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # Sidebar navigation
-page = st.sidebar.selectbox("Choose a page", ["Calculator", "Definitions"])
+page = st.sidebar.selectbox("Choose a page", ["Calculator"])
 
 # Logo
 st.image(logo, width=300)
@@ -64,32 +69,29 @@ if page == "Calculator":
     annual_cac_pct = (annual_cac / annual_net_revenue * 100) if annual_net_revenue else 0
 
     st.subheader("📆 Monthly Plan")
-    st.write(f"Gross CLV: £{monthly_clv:.2f}  *(See 'Definitions' in the sidebar)*")
+    st.write(f"Gross CLV: £{monthly_clv:.2f}")
     st.write(f"Net Revenue After Fees: £{monthly_net_revenue:.2f}")
     st.write(f"Total Fees: £{monthly_total_fees:.2f}")
-    st.write(f"CAC: £{monthly_cac:.2f}  *(See 'Definitions')*")
+    st.write(f"CAC: £{monthly_cac:.2f}")
     st.write(f"CAC as % of Net Revenue: {monthly_cac_pct:.2f}%")
     st.write(f"Net Profit per User: £{monthly_profit:.2f}")
 
     st.subheader("📅 Annual Plan")
-    st.write(f"Gross CLV: £{annual_price:.2f}  *(See 'Definitions')*")
+    st.write(f"Gross CLV: £{annual_price:.2f}")
     st.write(f"Net Revenue After Fees: £{annual_net_revenue:.2f}")
     st.write(f"Total Fees: £{annual_total_fees:.2f}")
-    st.write(f"CAC: £{annual_cac:.2f}  *(See 'Definitions')*")
+    st.write(f"CAC: £{annual_cac:.2f}")
     st.write(f"CAC as % of Net Revenue: {annual_cac_pct:.2f}%")
     st.write(f"Net Profit per User: £{annual_profit:.2f}")
 
-elif page == "Definitions":
-    st.title("📖 Definitions")
+    st.markdown("---")
+    st.markdown("### 🔍 Definitions")
 
-    st.markdown("### CLV – *Customer Lifetime Value*")
-    st.write("The total amount of revenue you can expect from a single customer during their time using your product or service.")
-
-    st.markdown("### CAC – *Customer Acquisition Cost*")
-    st.write("The total cost it takes to acquire a new customer. In your case, this might be a referral commission or paid ad spend.")
-
-    st.markdown("### Net Revenue")
-    st.write("The revenue after deducting platform fees (like Stripe and Uscreen).")
-
-    st.markdown("### Net Profit per User")
-    st.write("Net revenue minus the cost of acquisition (e.g., referral commission). This tells you how much you truly make per customer.")
+    st.markdown("""
+    | Term | Definition |
+    |------|------------|
+    | **CLV** | Customer Lifetime Value – the total revenue expected from a customer over their time with the product |
+    | **CAC** | Customer Acquisition Cost – what it costs to acquire one customer (e.g. referral commission) |
+    | **Net Revenue** | Revenue after fees (Stripe + Uscreen) are deducted |
+    | **Net Profit per User** | Net revenue minus CAC; what you truly earn per customer |
+    """)
