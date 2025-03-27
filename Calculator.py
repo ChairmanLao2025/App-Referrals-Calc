@@ -196,6 +196,9 @@ roi_percent = (estimated_annual_revenue / annual_rewardful_cost * 100) if annual
 st.markdown(f"**Monthly Cost of Rewardful (inc VAT):** £{monthly_rewardful_cost:.2f}")
 st.markdown(f"**Annual Cost of Rewardful (inc VAT):** £{annual_rewardful_cost:.2f}")
 st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
+# Affect on P&L
+affect_on_pnl = estimated_annual_revenue - annual_rewardful_cost
+st.markdown(f"**Affect on P&L (Annual Net Revenue Impact):** £{affect_on_pnl:,.2f}")
 
 
 
