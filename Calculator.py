@@ -22,6 +22,59 @@ saved = load_saved_inputs()
 # ---------- Streamlit Config + Styling ----------
 st.set_page_config(page_title="Referrals System Analysis", layout="wide")
 
+# Inject custom CSS for styling
+st.markdown("""
+    <style>
+    body {
+        background-color: #000000;
+        font-family: 'Inter', sans-serif !important;
+    }
+    .stApp {
+        background-color: #000000;
+        color: white;
+        font-family: 'Inter', sans-serif !important;
+    }
+    h1, h2, h3, h4, h5, h6, label, .stMarkdown, .st-bb, .st-c0, input, textarea,
+    .css-1aumxhk, .dataframe, table, th, td {
+        color: white !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    input, textarea {
+        background-color: #000000 !important;
+        border: 1px solid white !important;
+    }
+    .block-container {
+        padding-top: 2rem;
+    }
+    .dataframe {
+        background-color: black;
+        border: 1px solid white;
+    }
+    table {
+        border-collapse: collapse;
+        font-family: 'Inter', sans-serif !important;
+    }
+    th, td {
+        border: 1px solid white !important;
+        padding: 8px;
+        text-align: center;
+    }
+    /* Style dropdown menu */
+    div[data-baseweb="select"] {
+        background-color: black !important;
+        color: white !important;
+        border: 1px solid white !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    div[data-baseweb="select"] * {
+        color: white !important;
+        background-color: black !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 # Logo
 logo = Image.open("Breathpod.png")
 st.image(logo, width=600)
