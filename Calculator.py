@@ -46,6 +46,17 @@ st.markdown("""
         padding: 8px;
         text-align: center;
     }
+    /* Style the dropdown (select box) */
+div[data-baseweb="select"] {
+    background-color: black !important;
+    color: white !important;
+    border: 1px solid white !important;
+}
+
+div[data-baseweb="select"] * {
+    color: white !important;
+    background-color: black !important;
+}
     </style>
 """, unsafe_allow_html=True)
 
@@ -59,7 +70,7 @@ st.title("REWARDFUL x BREATHPOD - Referrals System Analysis")
 # Purpose
 with st.expander("💡 What is the purpose of this tool?"):
     st.write("""
-        This tool is designed for the internal team at Breathpod to evaluate the health and sustainability of our **referral strategy**.
+        This tool is designed to evaluate the health and sustainability of our **referral strategy**.
 
         - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user, particularly through our Rewardful commission structure.
         - **Customer Lifetime Value (CLV)** shows the total revenue we can expect from a user based on retention.
@@ -109,7 +120,7 @@ table_data = {
         "Gross CLV",
         "Net CLV (After Fees)",
         "Total Fees",
-        "CAC",
+        "CAC (Commission Payment to Affiliate)",
         "CAC as % of Net CLV",
         "Net Profit per User",
         "CAC / CLV Ratio (%)"
@@ -144,8 +155,8 @@ st.subheader("🤝 Affiliate Impact Calculator")
 
 active_subscribers = st.number_input("Current number of active subscribers", value=100)
 active_affiliates = st.number_input("Current number of active affiliates", value=10)
-monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=2)
-annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=24)
+monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=0.1)
+annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=0.1)
 
 total_monthly_referrals = active_affiliates * monthly_referrals
 total_annual_referrals = active_affiliates * annual_referrals
@@ -155,6 +166,42 @@ estimated_annual_revenue = total_annual_referrals * avg_clv_per_user
 st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
 st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
+
+
+# Rewardful Plan & ROI with VAT included
+st.markdown("### 🧾 Rewardful Plan & ROI")
+
+rewardful_plan = st.selectbox(
+    "Select your Rewardful plan",
+    options=[
+        "Starter (£46.80/month inc VAT)",
+        "Growth (£94.80/month inc VAT)",
+        "Enterprise (£142.80/month inc VAT)"
+    ]
+)
+
+# Plan price mapping (inc VAT)
+plan_costs = {
+    "Starter (£46.80/month inc VAT)": 46.80,
+    "Growth (£94.80/month inc VAT)": 94.80,
+    "Enterprise (£142.80/month inc VAT)": 142.80
+}
+
+monthly_rewardful_cost = plan_costs[rewardful_plan]
+annual_rewardful_cost = monthly_rewardful_cost * 12
+
+roi_percent = (estimated_annual_revenue / annual_rewardful_cost * 100) if annual_rewardful_cost else 0
+
+# Display
+st.markdown(f"**Monthly Cost of Rewardful (inc VAT):** £{monthly_rewardful_cost:.2f}")
+st.markdown(f"**Annual Cost of Rewardful (inc VAT):** £{annual_rewardful_cost:.2f}")
+st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
+# Affect on P&L
+affect_on_pnl = estimated_annual_revenue - annual_rewardful_cost
+st.markdown(f"**Affect on P&L (Annual Net Revenue Impact):** £{affect_on_pnl:,.2f}")
+
+
+
 
 # Definitions
 st.markdown("---")
@@ -169,3 +216,7 @@ st.markdown("""
 | **Net Profit per User** | Net CLV minus CAC – what you actually earn per customer |
 | **CAC / CLV Ratio** | Percentage of CLV spent on acquiring the user – lower is better |
 """)
+
+# Full-screen closing image
+st.markdown("---")
+st.image("DSCF0709.jpg", use_container_width=True)
