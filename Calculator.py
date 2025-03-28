@@ -1,4 +1,4 @@
-# Complete full code of the Referrals System Analysis app with all updates included
+# Rebuilding the full app code including all recent updates
 
 import streamlit as st
 from PIL import Image
@@ -153,20 +153,18 @@ st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
 st.markdown("---")
 st.subheader("🤝 Affiliate Impact Calculator")
 
-active_subscribers = st.number_input("Current number of active subscribers", value=600)
-active_affiliates = st.number_input("Current number of active affiliates", value=15)
-monthly_referrals = st.number_input("Monthly App Subscription Referrals per affiliate per year", value=1.0)
-annual_referrals = st.number_input("Annual App Subscription Referrals per affiliate per year", value=0.5)
+active_subscribers = st.number_input("Current number of active subscribers", value=100)
+active_affiliates = st.number_input("Current number of active affiliates", value=10)
+monthly_referrals = st.number_input("Avg Monthly Referrals per Affiliate", value=2)
+annual_referrals = st.number_input("Avg Annual Referrals per Affiliate", value=24)
 
 total_monthly_referrals = active_affiliates * monthly_referrals
 total_annual_referrals = active_affiliates * annual_referrals
+avg_clv_per_user = (monthly_clv + annual_price) / 2
+estimated_annual_revenue = total_annual_referrals * avg_clv_per_user
 
-monthly_referral_revenue = total_monthly_referrals * monthly_clv
-annual_referral_revenue = total_annual_referrals * annual_price
-estimated_annual_revenue = monthly_referral_revenue + annual_referral_revenue
-
-st.markdown(f"**Total Monthly Subscription Referrals (Year):** {total_monthly_referrals}")
-st.markdown(f"**Total Annual Subscription Referrals (Year):** {total_annual_referrals}")
+st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
+st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
 # Rewardful Plan & ROI Section
