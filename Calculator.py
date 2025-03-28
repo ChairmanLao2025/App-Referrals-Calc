@@ -1,5 +1,3 @@
-# Rebuilding the full app code including all recent updates
-
 import streamlit as st
 from PIL import Image
 import pandas as pd
@@ -31,15 +29,6 @@ st.markdown("""
     input, textarea {
         background-color: #000000 !important;
         border: 1px solid white !important;
-    }
-    div[data-baseweb="select"] {
-        background-color: black !important;
-        color: white !important;
-        border: 1px solid white !important;
-    }
-    div[data-baseweb="select"] * {
-        color: white !important;
-        background-color: black !important;
     }
     .block-container {
         padding-top: 2rem;
@@ -167,34 +156,6 @@ st.markdown(f"**Total Monthly Referrals:** {total_monthly_referrals}")
 st.markdown(f"**Total Annual Referrals:** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
-# Rewardful Plan & ROI Section
-st.markdown("### 🧾 Rewardful Plan & ROI")
-
-rewardful_plan = st.selectbox(
-    "Select your Rewardful plan",
-    options=[
-        "Starter (£46.80/month inc VAT)",
-        "Growth (£94.80/month inc VAT)",
-        "Enterprise (£142.80/month inc VAT)"
-    ]
-)
-
-plan_costs = {
-    "Starter (£46.80/month inc VAT)": 46.80,
-    "Growth (£94.80/month inc VAT)": 94.80,
-    "Enterprise (£142.80/month inc VAT)": 142.80
-}
-
-monthly_rewardful_cost = plan_costs[rewardful_plan]
-annual_rewardful_cost = monthly_rewardful_cost * 12
-roi_percent = (estimated_annual_revenue / annual_rewardful_cost * 100) if annual_rewardful_cost else 0
-affect_on_pnl = estimated_annual_revenue - annual_rewardful_cost
-
-st.markdown(f"**Monthly Cost of Rewardful (inc VAT):** £{monthly_rewardful_cost:.2f}")
-st.markdown(f"**Annual Cost of Rewardful (inc VAT):** £{annual_rewardful_cost:.2f}")
-st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
-st.markdown(f"**Affect on P&L (Annual Net Revenue Impact):** £{affect_on_pnl:,.2f}")
-
 # Definitions
 st.markdown("---")
 st.markdown("### 🔍 Definitions")
@@ -208,8 +169,3 @@ st.markdown("""
 | **Net Profit per User** | Net CLV minus CAC – what you actually earn per customer |
 | **CAC / CLV Ratio** | Percentage of CLV spent on acquiring the user – lower is better |
 """)
-
-# Full-width image footer
-st.markdown("---")
-st.image("DSCF0709.jpg", use_column_width=True)
-
