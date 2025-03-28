@@ -1,40 +1,79 @@
+# Complete full code of the Referrals System Analysis app with all updates included
+
 import streamlit as st
 from PIL import Image
 import pandas as pd
-import json
-import os
 
-# ---------- Persistence Setup ----------
-DEFAULTS_FILE = "saved_inputs.json"
+# Page config
+st.set_page_config(
+    page_title="Referrals System Analysis",
+    layout="wide"
+)
 
-def load_saved_inputs():
-    if os.path.exists(DEFAULTS_FILE):
-        with open(DEFAULTS_FILE, "r") as f:
-            return json.load(f)
-    return {}
-
-def save_inputs(data):
-    with open(DEFAULTS_FILE, "w") as f:
-        json.dump(data, f)
-
-saved = load_saved_inputs()
-
-# ---------- Streamlit Config + Styling ----------
-st.set_page_config(page_title="Referrals System Analysis", layout="wide")
+# Styling + Fonts
+st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <style>
+    body {
+        background-color: #000000;
+        font-family: 'Inter', sans-serif !important;
+    }
+    .stApp {
+        background-color: #000000;
+        color: white;
+        font-family: 'Inter', sans-serif !important;
+    }
+    h1, h2, h3, h4, h5, h6, .stMarkdown, .st-bb, .st-c0, label, .stSelectbox,
+    input, textarea, .css-1aumxhk, .dataframe, table, th, td {
+        color: white !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    input, textarea {
+        background-color: #000000 !important;
+        border: 1px solid white !important;
+    }
+    div[data-baseweb="select"] {
+        background-color: black !important;
+        color: white !important;
+        border: 1px solid white !important;
+    }
+    div[data-baseweb="select"] * {
+        color: white !important;
+        background-color: black !important;
+    }
+    .block-container {
+        padding-top: 2rem;
+    }
+    .dataframe {
+        background-color: black;
+        border: 1px solid white;
+    }
+    table {
+        border-collapse: collapse;
+        font-family: 'Inter', sans-serif !important;
+    }
+    th, td {
+        border: 1px solid white !important;
+        padding: 8px;
+        text-align: center;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # Logo
 logo = Image.open("Breathpod.png")
 st.image(logo, width=600)
 
-# Title & Purpose
+# Title
 st.title("REWARDFUL x BREATHPOD - Referrals System Analysis")
 
+# Purpose
 with st.expander("💡 What is the purpose of this tool?"):
     st.write("""
-        This tool is designed to evaluate the health and sustainability of our **referral strategy**.
+        This tool is designed for the internal team at Breathpod to evaluate the health and sustainability of our **referral strategy**.
 
-        - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user.
-        - **Customer Lifetime Value (CLV)** shows the total revenue we can expect from a user.
+        - **Customer Acquisition Cost (CAC)** helps us understand how much we're spending to bring in a new user, particularly through our Rewardful commission structure.
+        - **Customer Lifetime Value (CLV)** shows the total revenue we can expect from a user based on retention.
         - **Net CLV** is the CLV after platform fees (Stripe & Uscreen) are deducted.
         - **CAC / CLV Ratio** helps us understand cost efficiency.
 
@@ -43,20 +82,20 @@ with st.expander("💡 What is the purpose of this tool?"):
 
 # Input fields
 st.header("Platform Fees")
-stripe_fee_pct = st.number_input("Stripe Fee (%)", value=saved.get("stripe_fee_pct", 1.5))
-stripe_fixed_fee = st.number_input("Stripe Fixed Fee (£)", value=saved.get("stripe_fixed_fee", 0.20))
-uscreen_fee_pct = st.number_input("Uscreen Fee (%)", value=saved.get("uscreen_fee_pct", 5.4))
+stripe_fee_pct = st.number_input("Stripe Fee (%)", value=1.5)
+stripe_fixed_fee = st.number_input("Stripe Fixed Fee (£)", value=0.20)
+uscreen_fee_pct = st.number_input("Uscreen Fee (%)", value=5.4)
 total_fee_pct = (stripe_fee_pct + uscreen_fee_pct) / 100
 
 st.header("Rewardful Referral Commission")
-commission_pct = st.number_input("Referral Commission (%)", value=saved.get("commission_pct", 15.0))
+commission_pct = st.number_input("Referral Commission (%)", value=30.0)
 
 st.header("Monthly Subscription Plan Inputs")
-monthly_price = st.number_input("Monthly Subscription Price (£)", value=saved.get("monthly_price", 12.99))
-monthly_retention = st.number_input("Average Retention (months)", value=saved.get("monthly_retention", 3))
+monthly_price = st.number_input("Monthly Subscription Price (£)", value=12.99)
+monthly_retention = st.number_input("Average Retention (months)", value=3)
 
 st.header("Annual Subscription Plan Inputs")
-annual_price = st.number_input("Annual Subscription Price (£)", value=saved.get("annual_price", 129.99))
+annual_price = st.number_input("Annual Subscription Price (£)", value=129.99)
 
 # Monthly calculations
 monthly_clv = monthly_price * monthly_retention
@@ -81,7 +120,7 @@ table_data = {
         "Gross CLV",
         "Net CLV (After Fees)",
         "Total Fees",
-        "CAC (Commission Payment to Affiliate)",
+        "CAC",
         "CAC as % of Net CLV",
         "Net Profit per User",
         "CAC / CLV Ratio (%)"
@@ -106,29 +145,33 @@ table_data = {
     ]
 }
 
-st.subheader("📊 Plan Comparison Table")
 df = pd.DataFrame(table_data)
+st.subheader("📊 Plan Comparison Table")
 st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
 
 # Affiliate Impact Calculator
 st.markdown("---")
 st.subheader("🤝 Affiliate Impact Calculator")
 
-active_subscribers = st.number_input("Current number of active subscribers", value=saved.get("active_subscribers", 600))
-active_affiliates = st.number_input("Current number of active affiliates", value=saved.get("active_affiliates", 15))
-monthly_referrals_per_affiliate = st.number_input("Monthly App Subscription Referrals per Affiliate per Year", value=saved.get("monthly_referrals", 1.0))
-annual_referrals_per_affiliate = st.number_input("Annual App Subscription Referrals per Affiliate per Year", value=saved.get("annual_referrals", 0.5))
+active_subscribers = st.number_input("Current number of active subscribers", value=600)
+active_affiliates = st.number_input("Current number of active affiliates", value=15)
+monthly_referrals = st.number_input("Monthly App Subscription Referrals per affiliate per year", value=1.0)
+annual_referrals = st.number_input("Annual App Subscription Referrals per affiliate per year", value=0.5)
 
-total_monthly_referrals = active_affiliates * monthly_referrals_per_affiliate
-total_annual_referrals = active_affiliates * annual_referrals_per_affiliate
-estimated_annual_revenue = (total_monthly_referrals * monthly_clv) + (total_annual_referrals * annual_price)
+total_monthly_referrals = active_affiliates * monthly_referrals
+total_annual_referrals = active_affiliates * annual_referrals
 
-st.markdown(f"**Total Monthly Referrals (per year):** {total_monthly_referrals}")
-st.markdown(f"**Total Annual Referrals (per year):** {total_annual_referrals}")
+monthly_referral_revenue = total_monthly_referrals * monthly_clv
+annual_referral_revenue = total_annual_referrals * annual_price
+estimated_annual_revenue = monthly_referral_revenue + annual_referral_revenue
+
+st.markdown(f"**Total Monthly Subscription Referrals (Year):** {total_monthly_referrals}")
+st.markdown(f"**Total Annual Subscription Referrals (Year):** {total_annual_referrals}")
 st.markdown(f"**Estimated Additional Revenue from Referrals (Year):** £{estimated_annual_revenue:,.2f}")
 
-# Rewardful Plan & ROI
+# Rewardful Plan & ROI Section
 st.markdown("### 🧾 Rewardful Plan & ROI")
+
 rewardful_plan = st.selectbox(
     "Select your Rewardful plan",
     options=[
@@ -154,30 +197,10 @@ st.markdown(f"**Annual Cost of Rewardful (inc VAT):** £{annual_rewardful_cost:.
 st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
 st.markdown(f"**Affect on P&L (Annual Net Revenue Impact):** £{affect_on_pnl:,.2f}")
 
-# ---------- Save Button ----------
-st.markdown("---")
-st.subheader("💾 Save These Inputs as Default")
-if st.button("Save Now"):
-    to_save = {
-        "stripe_fee_pct": stripe_fee_pct,
-        "stripe_fixed_fee": stripe_fixed_fee,
-        "uscreen_fee_pct": uscreen_fee_pct,
-        "commission_pct": commission_pct,
-        "monthly_price": monthly_price,
-        "monthly_retention": monthly_retention,
-        "annual_price": annual_price,
-        "active_subscribers": active_subscribers,
-        "active_affiliates": active_affiliates,
-        "monthly_referrals": monthly_referrals_per_affiliate,
-        "annual_referrals": annual_referrals_per_affiliate,
-        "rewardful_plan": rewardful_plan
-    }
-    save_inputs(to_save)
-    st.success("✅ Inputs saved successfully!")
-
 # Definitions
 st.markdown("---")
 st.markdown("### 🔍 Definitions")
+
 st.markdown("""
 | Term | Definition |
 |------|------------|
@@ -187,3 +210,8 @@ st.markdown("""
 | **Net Profit per User** | Net CLV minus CAC – what you actually earn per customer |
 | **CAC / CLV Ratio** | Percentage of CLV spent on acquiring the user – lower is better |
 """)
+
+# Full-width image footer
+st.markdown("---")
+st.image("DSCF0709.jpg", use_column_width=True)
+
