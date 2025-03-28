@@ -1,0 +1,14 @@
+{
+  "active_subscribers": 123,
+  "active_affiliates": 8,
+  "monthly_referrals": 0.2,
+  "annual_referrals": 0.3,
+  "stripe_fee_pct": 1.5,
+  "stripe_fixed_fee": 0.20,
+  "uscreen_fee_pct": 5.4,
+  "commission_pct": 30.0,
+  "monthly_price": 12.99,
+  "monthly_retention": 3,
+  "annual_price": 129.99,
+  "rewardful_plan": "Starter (£46.80/month inc VAT)"
+}
