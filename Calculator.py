@@ -31,69 +31,65 @@ st.markdown("""
         font-family: 'Inter', sans-serif !important;
     }
 
-    h1, h2, h3, h4, h5, h6, label, .stMarkdown, .st-bb, .st-c0 {
+    h1, h2, h3, h4, h5, h6, label, .stMarkdown {
         color: white !important;
-        font-family: 'Inter', sans-serif !important;
     }
 
-    input, textarea, .stTextInput>div>div>input {
-        background-color: black !important;
-        color: white !important;
-        border: 1px solid white !important;
-    }
-
-    /* Dropdown box */
+    /* Main dropdown selector styling */
     div[data-baseweb="select"] {
         background-color: black !important;
-        border: 1px solid white !important;
         color: white !important;
+        border: 1px solid white !important;
     }
 
-    /* Dropdown input text */
+    /* Selected value */
     div[data-baseweb="select"] > div {
         color: white !important;
         background-color: black !important;
     }
 
-    /* Dropdown options menu */
+    /* Text inside input box */
+    div[data-baseweb="select"] input {
+        color: white !important;
+    }
+
+    /* Dropdown menu items container */
     div[role="listbox"] {
         background-color: black !important;
-        color: white !important;
         border: 1px solid white !important;
     }
 
-    /* Individual option */
+    /* Each dropdown option */
     div[role="option"] {
         background-color: black !important;
         color: white !important;
+        font-family: 'Inter', sans-serif !important;
     }
 
+    /* Hover effect */
     div[role="option"]:hover {
         background-color: #222 !important;
         color: white !important;
     }
 
-    .dataframe {
-        background-color: black;
-        border: 1px solid white;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    th, td {
-        border: 1px solid white !important;
-        padding: 8px;
-        text-align: center;
+    /* Fix for deep menu renders */
+    [class*="menu"] {
+        background-color: black !important;
         color: white !important;
+        font-family: 'Inter', sans-serif !important;
+        border: 1px solid white !important;
     }
 
-    .block-container {
-        padding-top: 2rem;
+    /* Scrollbar fix */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: white;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 
