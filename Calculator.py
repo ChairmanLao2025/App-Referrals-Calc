@@ -207,7 +207,10 @@ st.markdown(f"**ROI on using Rewardful:** {roi_percent:.2f}%")
 st.markdown(f"**Affect on P&L (Annual Net Revenue Impact):** £{affect_on_pnl:,.2f}")
 
 # ---------- Save Button ----------
-if st.button("💾 Save These Inputs as Default"):
+st.markdown("---")
+st.subheader("💾 Save These Inputs as Default")
+
+if st.button("Save Now"):
     to_save = {
         "stripe_fee_pct": stripe_fee_pct,
         "stripe_fixed_fee": stripe_fixed_fee,
@@ -223,7 +226,10 @@ if st.button("💾 Save These Inputs as Default"):
         "rewardful_plan": rewardful_plan
     }
     save_inputs(to_save)
-    st.success("Inputs saved successfully!")
+    st.success("✅ Inputs saved successfully!")
+
+
+
 
 # ---------- Definitions ----------
 st.markdown("---")
