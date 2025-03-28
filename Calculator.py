@@ -25,55 +25,63 @@ st.set_page_config(page_title="Referrals System Analysis", layout="wide")
 # Inject custom CSS for styling
 st.markdown("""
     <style>
-    /* Overall app */
-    body, .stApp {
-        background-color: #000;
+    html, body, .stApp {
+        background-color: black;
         color: white;
         font-family: 'Inter', sans-serif !important;
     }
 
-    /* Headings and labels */
-    h1, h2, h3, h4, h5, h6, label, .stMarkdown, .st-bb, .st-c0, .css-1aumxhk {
+    h1, h2, h3, h4, h5, h6, label, .stMarkdown, .st-bb, .st-c0 {
         color: white !important;
         font-family: 'Inter', sans-serif !important;
     }
 
-    /* Input fields */
-    input, textarea {
+    input, textarea, .stTextInput>div>div>input {
         background-color: black !important;
         color: white !important;
         border: 1px solid white !important;
     }
 
-    /* Dropdown wrapper */
+    /* Dropdown box */
     div[data-baseweb="select"] {
         background-color: black !important;
+        border: 1px solid white !important;
+        color: white !important;
+    }
+
+    /* Dropdown input text */
+    div[data-baseweb="select"] > div {
+        color: white !important;
+        background-color: black !important;
+    }
+
+    /* Dropdown options menu */
+    div[role="listbox"] {
+        background-color: black !important;
         color: white !important;
         border: 1px solid white !important;
-        font-family: 'Inter', sans-serif !important;
     }
 
-    /* Dropdown inner content */
-    div[data-baseweb="select"] * {
-        background-color: black !important;
-        color: white !important;
-        font-family: 'Inter', sans-serif !important;
-    }
-
-    /* Dropdown popup menu */
-    .css-1n76uvr, .css-1n76uvr * {
+    /* Individual option */
+    div[role="option"] {
         background-color: black !important;
         color: white !important;
     }
 
-    /* Table styling */
+    div[role="option"]:hover {
+        background-color: #222 !important;
+        color: white !important;
+    }
+
     .dataframe {
         background-color: black;
         border: 1px solid white;
     }
+
     table {
         border-collapse: collapse;
     }
+
     th, td {
         border: 1px solid white !important;
         padding: 8px;
@@ -81,12 +89,12 @@ st.markdown("""
         color: white !important;
     }
 
-    /* Block container spacing */
     .block-container {
         padding-top: 2rem;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 # Logo
